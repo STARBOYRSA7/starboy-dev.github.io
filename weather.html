@@ -2,170 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>SA Weather App</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhone Weather</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="weather.css">
 </head>
 <body>
-    <!-- Dynamic Background Canvas -->
-    <canvas id="backgroundCanvas"></canvas>
-    
-    <!-- Main App Container -->
-    <div class="weather-app">
-        <!-- Header -->
-        <div class="app-header">
-            <div class="time-display" id="currentTime">12:00</div>
-            <div class="header-controls">
-                <button class="location-btn" id="locationBtn" title="Current location">
-                    <i class="fas fa-location-arrow"></i>
-                </button>
-                <button class="search-btn" id="searchBtn" title="Search">
-                    <i class="fas fa-search"></i>
-                </button>
-                <button class="menu-btn" id="menuBtn" title="Menu">
-                    <i class="fas fa-ellipsis"></i>
-                </button>
-            </div>
+
+    <div class="app">
+        <h1>South Africa Weather</h1>
+
+        <div class="search-box">
+            <input type="text" id="cityInput" placeholder="Enter city (e.g. Durban)">
+            <button id="searchBtn">Search</button>
         </div>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Current Weather -->
-            <div class="current-section">
-                <div class="location-info">
-                    <div class="city-name" id="cityName">
-                        <i class="fas fa-location-dot"></i> New York
-                    </div>
-                    <div class="current-time" id="currentDateTime">Today, 12:00 PM</div>
-                </div>
-                
-                <div class="temperature-display">
-                    <div class="main-temp" id="temperature">
-                        22<span class="temp-unit">°C</span>
-                    </div>
-                    <div class="weather-description" id="weatherDescription">Sunny</div>
-                </div>
-                
-                <div class="weather-details-grid">
-                    <div class="detail-item">
-                        <div class="detail-icon"><i class="fas fa-temperature-high"></i></div>
-                        <div class="detail-info">
-                            <div class="detail-label">FEELS LIKE</div>
-                            <div class="detail-value" id="feelsLike">24°C</div>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-icon"><i class="fas fa-wind"></i></div>
-                        <div class="detail-info">
-                            <div class="detail-label">WIND</div>
-                            <div class="detail-value" id="windSpeed">12 km/h</div>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-icon"><i class="fas fa-tint"></i></div>
-                        <div class="detail-info">
-                            <div class="detail-label">HUMIDITY</div>
-                            <div class="detail-value" id="humidity">65%</div>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-icon"><i class="fas fa-sun"></i></div>
-                        <div class="detail-info">
-                            <div class="detail-label">UV INDEX</div>
-                            <div class="detail-value" id="uvIndex">4</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div id="error" class="error"></div>
 
-            <!-- Hourly Forecast -->
-            <section class="hourly-section">
-                <div class="section-header">
-                    <h3>HOURLY FORECAST</h3>
-                    <div class="time-range">Next 12 hours</div>
-                </div>
-                <div class="hourly-scroll" id="hourlyContainer">
-                    <!-- Hourly items will be inserted by JavaScript -->
-                </div>
-            </section>
-
-            <!-- 10-Day Forecast -->
-            <section class="daily-section">
-                <div class="section-header">
-                    <h3>10-DAY FORECAST</h3>
-                </div>
-                <div class="daily-list" id="dailyContainer">
-                    <!-- Daily forecast items will be inserted by JavaScript -->
-                </div>
-            </section>
-
-            <!-- Additional Details -->
-            <section class="details-section">
-                <div class="section-header">
-                    <h3>WEATHER DETAILS</h3>
-                </div>
-                <div class="details-grid">
-                    <div class="detail-card">
-                        <div class="detail-card-icon"><i class="fas fa-sunrise"></i></div>
-                        <div class="detail-card-info">
-                            <div class="detail-card-label">SUNRISE</div>
-                            <div class="detail-card-value" id="sunriseTime">6:45 AM</div>
-                        </div>
-                    </div>
-                    <div class="detail-card">
-                        <div class="detail-card-icon"><i class="fas fa-sunset"></i></div>
-                        <div class="detail-card-info">
-                            <div class="detail-card-label">SUNSET</div>
-                            <div class="detail-card-value" id="sunsetTime">7:30 PM</div>
-                        </div>
-                    </div>
-                    <div class="detail-card">
-                        <div class="detail-card-icon"><i class="fas fa-compress-alt"></i></div>
-                        <div class="detail-card-info">
-                            <div class="detail-card-label">PRESSURE</div>
-                            <div class="detail-card-value" id="pressure">1013 hPa</div>
-                        </div>
-                    </div>
-                    <div class="detail-card">
-                        <div class="detail-card-icon"><i class="fas fa-eye"></i></div>
-                        <div class="detail-card-info">
-                            <div class="detail-card-label">VISIBILITY</div>
-                            <div class="detail-card-value" id="visibility">16 km</div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Search Overlay -->
-        <div class="search-overlay hidden" id="searchOverlay">
-            <div class="search-header">
-                <input type="text" class="search-input" id="cityInput" placeholder="Search city or location..." autocomplete="off">
-                <button class="search-close" id="searchClose">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="search-results" id="searchResults">
-                <!-- Search results will appear here -->
-            </div>
-        </div>
-
-        <!-- Loading Screen -->
-        <div class="loading-screen" id="loadingScreen">
-            <div class="loading-content">
-                <div class="loading-spinner"></div>
-                <div class="loading-text">Updating weather data...</div>
-            </div>
-        </div>
-
-        <!-- Error Message -->
-        <div class="error-toast hidden" id="errorToast">
-            <div class="error-content">
-                <i class="fas fa-exclamation-circle"></i>
-                <span id="errorMessage">Unable to fetch weather data</span>
-            </div>
+        <div id="weather" class="weather-card hidden">
+            <h2 id="cityName"></h2>
+            <img id="icon" alt="Weather icon">
+            <p id="temp"></p>
+            <p id="desc"></p>
+            <p id="details"></p>
         </div>
     </div>
 
